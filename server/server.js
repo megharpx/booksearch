@@ -20,10 +20,10 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  //cache: new KeyvAdapter(new Keyv()),
   context: authMiddleware,
 });
 
+// server.applyMiddleware({ app });
 // integrate our Apollo server with the Express application as middleware
 
 
@@ -33,7 +33,7 @@ app.use(express.json());
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/public")));
+  app.use(express.static(path.join(__dirname, "../client/public/")));
 }
 
 app.get("*", (req, res) => {
