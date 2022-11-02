@@ -8,7 +8,9 @@ const db = require("./config/connection");
 
 // const routes = require("./routes");
 
+
 // import our typeDefs and resolvers
+
 const { typeDefs, resolvers } = require("./schemas");
 
 const app = express();
@@ -18,14 +20,16 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  //cache: new KeyvAdapter(new Keyv()),
   context: authMiddleware,
 });
 
 // integrate our Apollo server with the Express application as middleware
-server.applyMiddleware({ app });
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === "production") {
@@ -35,7 +39,6 @@ if (process.env.NODE_ENV === "production") {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/public/index.html"));
 });
-
 // app.use(routes);
 
 db.once("open", () => {
@@ -48,3 +51,4 @@ db.once("open", () => {
 db.on("error", (err) => {
   console.error("MongoDB connection error: ", err);
 });
+
