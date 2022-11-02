@@ -9,12 +9,13 @@ const PORT = process.env.PORT || 3001;
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
-  context: authMiddleware,
-});
-
-server.applyMiddleware({ app });
-
+  resolvers});
+  server.start().then(res => {
+    server.applyMiddleware({ app });
+    app.listen({ port: 3000 }, () =>
+    console.log("nice"))
+  })
+  
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
